@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import <QqcBaseFramework/QqcBaseFramework.h>
-#import <ZXingObjC/ZXingObjC.h>
 #import "QqcScanProcessor.h"
+#import "QqcSizeDef.h"
+#import "ZXingObjC.h"
 
 @interface QqcScanProcessor()<AVCaptureMetadataOutputObjectsDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 

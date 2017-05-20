@@ -7,9 +7,13 @@
 //
 
 #import "QqcQRCodeViewController.h"
-#import <QqcBaseFramework/QqcBaseFramework.h>
 #import "QqcScanProcessor.h"
-
+#import "QqcSizeDef.h"
+#import "UIImage+Qqc.h"
+#import "QqcMarginDef.h"
+#import "QqcUtility.h"
+#import "QqcComFuncDef.h"
+#import "QqcImagePickerController.h"
 
 #define KDeviceFrame [UIScreen mainScreen].bounds
 
@@ -152,25 +156,25 @@ static const float kReaderViewHeight = 200;
     [self.view addSubview:bottomView];
     
     //左上边角imageview
-    UIImage *customImage = [UIImage imageFromBundleWithName:@"qrCodeLeftTop.png" bundleName:@"QqcScanFrameworkRES"];
+    UIImage *customImage = [UIImage imageFromBundleWithName:@"qrCodeLeftTop.png" bundleName:@"QqcScan"];
     UIImageView *leftTopImageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(leftView.frame)-8, CGRectGetMaxY(topView.frame)-8, customImage.size.width, customImage.size.height)];
     leftTopImageView.image = customImage;
     [self.view addSubview:leftTopImageView];
     
     //右上边角imageview
-    customImage = [UIImage imageFromBundleWithName:@"qrCodeRightTop.png" bundleName:@"QqcScanFrameworkRES"];
+    customImage = [UIImage imageFromBundleWithName:@"qrCodeRightTop.png" bundleName:@"QqcScan"];
     UIImageView *rightTopImage = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMinX(rightView.frame) - customImage.size.width+8, CGRectGetMaxY(topView.frame)-8, customImage.size.width, customImage.size.height)];
     rightTopImage.image = customImage;
     [self.view addSubview:rightTopImage];
     
     //左下边角imageview
-    customImage = [UIImage imageFromBundleWithName:@"qrCodeLeftBottom.png" bundleName:@"QqcScanFrameworkRES"];
+    customImage = [UIImage imageFromBundleWithName:@"qrCodeLeftBottom.png" bundleName:@"QqcScan"];
     UIImageView *leftBottomImage = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(leftView.frame)-8, CGRectGetMinY(bottomView.frame) - customImage.size.height+8, customImage.size.width, customImage.size.height)];
     leftBottomImage.image = customImage;
     [self.view addSubview:leftBottomImage];
     
     //右下边角
-    customImage = [UIImage imageFromBundleWithName:@"qrCodeRightBottom.png" bundleName:@"QqcScanFrameworkRES"];
+    customImage = [UIImage imageFromBundleWithName:@"qrCodeRightBottom.png" bundleName:@"QqcScan"];
     UIImageView *rightBottomImage = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMinX(rightView.frame) - customImage.size.width+8, CGRectGetMinY(bottomView.frame) - customImage.size.height+8, customImage.size.width, customImage.size.height)];
     rightBottomImage.image = customImage;
     [self.view addSubview:rightBottomImage];
@@ -204,30 +208,30 @@ static const float kReaderViewHeight = 200;
     
     UIButton *picBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, picBtnY , 80, 80)];
     [picBtn addTarget:self action:@selector(onBtnPic:) forControlEvents:UIControlEventTouchUpInside];
-    [picBtn setImage:[UIImage imageFromBundleWithName:@"icon_photo.png" bundleName:@"QqcScanFrameworkRES"] forState:UIControlStateNormal];
+    [picBtn setImage:[UIImage imageFromBundleWithName:@"icon_photo.png" bundleName:@"QqcScan"] forState:UIControlStateNormal];
     [self.view addSubview:picBtn];
     
     UIButton *hisBtn = [[UIButton alloc] initWithFrame:CGRectMake(width_screen_qqc - 80, picBtnY, 80, 80)];
     [hisBtn addTarget:self action:@selector(onBtnHistory:) forControlEvents:UIControlEventTouchUpInside];
-    [hisBtn setImage:[UIImage imageFromBundleWithName:@"icon_history.png" bundleName:@"QqcScanFrameworkRES"] forState:UIControlStateNormal];
+    [hisBtn setImage:[UIImage imageFromBundleWithName:@"icon_history.png" bundleName:@"QqcScan"] forState:UIControlStateNormal];
     [self.view addSubview:hisBtn];
     
     _btnTorch = [[UIButton alloc] initWithFrame:CGRectMake(width_screen_qqc - 80, margins_vert16_qqc, 80, 80)];
     [_btnTorch addTarget:self action:@selector(onBtnFlashLight:) forControlEvents:UIControlEventTouchUpInside];
-    [_btnTorch setImage:[UIImage imageFromBundleWithName:@"icon_flash_off.png" bundleName:@"QqcScanFrameworkRES"] forState:UIControlStateNormal];
-    [_btnTorch setImage:[UIImage imageFromBundleWithName:@"icon_flash_on.png" bundleName:@"QqcScanFrameworkRES"] forState:UIControlStateSelected];
+    [_btnTorch setImage:[UIImage imageFromBundleWithName:@"icon_flash_off.png" bundleName:@"QqcScan"] forState:UIControlStateNormal];
+    [_btnTorch setImage:[UIImage imageFromBundleWithName:@"icon_flash_on.png" bundleName:@"QqcScan"] forState:UIControlStateSelected];
     [self.view addSubview:_btnTorch];
     
     UIButton *btnBack = [[UIButton alloc] initWithFrame:(CGRect) {0, margins_vert16_qqc, 80, 80}];
     [btnBack addTarget:self action:@selector(onBtnBack:) forControlEvents:UIControlEventTouchUpInside];
-    [btnBack setImage:[UIImage imageFromBundleWithName:@"icon_brackets_left_white.png" bundleName:@"QqcScanFrameworkRES"] forState:UIControlStateNormal];
+    [btnBack setImage:[UIImage imageFromBundleWithName:@"icon_brackets_left_white.png" bundleName:@"QqcScan"] forState:UIControlStateNormal];
     [self.view addSubview:btnBack];
     
     if ( !(_scanUIMask&QqcScanUIMaskBack) )          {   [btnBack setHidden:YES];      }
     if ( !(_scanUIMask&QqcScanUIMaskFlashLight) )    {   [_btnTorch setHidden:YES];    }
     if ( !(_scanUIMask&QqcScanUIMaskPic) )           {   [picBtn setHidden:YES];       }
     if ( !(_scanUIMask&QqcScanUIMaskHistory) )       {   [hisBtn setHidden:YES];       }
-    if ( ![QqcBaseUtility isHasTorch] )              {   [_btnTorch setHidden:YES];    }
+    if ( ![QqcUtility isHasTorch] )              {   [_btnTorch setHidden:YES];    }
 }
 
 /**
@@ -330,7 +334,7 @@ static const float kReaderViewHeight = 200;
 {
     if (!_scanLineImageView)
     {
-        _scanLineImageView = [[UIImageView alloc] initWithImage:[UIImage imageFromBundleWithName:@"qrCodeLine.png" bundleName:@"QqcScanFrameworkRES"]];
+        _scanLineImageView = [[UIImageView alloc] initWithImage:[UIImage imageFromBundleWithName:@"qrCodeLine.png" bundleName:@"QqcScan"]];
         _scanLineImageView.frame = CGRectMake((width_screen_qqc - 280.0) / 2.0, _heightTopBottomMask, 280.0, 12.0);
     }
     
@@ -378,7 +382,7 @@ static const float kReaderViewHeight = 200;
 - (void)handleEnteredBackground
 {
     _btnTorch.selected = NO;
-    [QqcBaseUtility turnTorchOn:NO];
+    [QqcUtility turnTorchOn:NO];
 }
 
 #pragma mark - 功能事件响应
@@ -437,10 +441,10 @@ static const float kReaderViewHeight = 200;
     {
         if (_btnTorch.selected) {
             _btnTorch.selected = NO;
-            [QqcBaseUtility turnTorchOn:NO];
+            [QqcUtility turnTorchOn:NO];
         }else{
             _btnTorch.selected = YES;
-            [QqcBaseUtility turnTorchOn:YES];
+            [QqcUtility turnTorchOn:YES];
         }
     }
 }

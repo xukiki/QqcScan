@@ -6,15 +6,20 @@ Pod::Spec.new do |s|
   s.requires_arc  = true
 
   s.name         = "QqcScan"
-  s.version      = "1.0.1"
+  s.version      = "1.0.2"
   s.summary      = "QqcScan"
   s.homepage     = "https://github.com/xukiki/QqcScan"
   s.source       = { :git => "https://github.com/xukiki/QqcScan.git", :tag => "#{s.version}" }
   
   s.source_files = 'QqcScan/*.{h,m}'
   s.resource = 'QqcScan/QqcScan.bundle'
-  s.vendored_frameworks = 'ZXingObjC.framework'
 
-  #s.dependency 'ShareSDK3'
+  s.dependency 'QqcSizeDef'
+  s.dependency 'UIImage-Qqc'
+  s.dependency 'QqcMarginDef'
+  s.dependency 'QqcUtility'
+  s.dependency 'QqcComFuncDef'
+  s.dependency 'QqcImagePickerController'
+  s.dependency 'ZXingObjC'
   
 end
